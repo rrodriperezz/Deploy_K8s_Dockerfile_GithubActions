@@ -1,22 +1,21 @@
-# Descripcion del proyecto.
+# Deploy_K8s_Dockerfile_GithubActions
 
-Proyecto sencillo utilizando Github Actions para desplegues en EKS Y Dockerfile para ejecutar una aplicacion Python
+API en FastAPI empaquetada en Docker y desplegada a Kubernetes con GitHub Actions en cada push a `main`.
 
-## Requirements
+![Despliegue](docs/despliegue.svg)
 
-- Python >= 3.9
-- Install project dependencies
-
-## Quick start
-
-1. Running local
+## Correrlo
 
 ```bash
+pip install -r requirements.txt
 bash start.sh
 ```
 
-3. Access app documentation
+Docs de la API: http://localhost:8080/docs. Endpoints: `GET /ping` y `POST /create`.
 
-```bash
-http://localhost:8080/docs
-```
+## Pipeline
+
+1. **build:** instala dependencias.
+2. **deploy:** construye la imagen, la sube a Docker Hub y, por SSH, aplica los manifiestos de `k8s/` con `kubectl` en una VM con Kubernetes.
+
+Secrets necesarios: `DOCKER_USERNAME`, `DOCKER_PASSWORD`, `DOCKER_REGISTRY`, `SSH_PRIVATE_KEY`, `VM_HOST`, `VM_USER`.
